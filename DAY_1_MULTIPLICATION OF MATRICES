@@ -1,0 +1,45 @@
+#include <stdio.h>
+int main() {
+    int m, n, p;
+    printf("192324112-sree ruthin reddy");
+    printf("Enter no. of rows for matrix 1: ");
+    scanf("%d", &m);
+    printf("\nEnter no. of columns for matrix 1: ");
+    scanf("%d", &n);
+    if (m <= 0 || n <= 0) {
+        printf("Invalid matrix dimensions. Exiting program.\n");
+        return 1;
+    }
+    int mat1[m][n];
+    printf("\nEnter the elements of matrix 1:\n");
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &mat1[i][j]);
+        }
+    }
+    printf("\nEnter no. of columns for matrix 2: ");
+    scanf("%d", &p);
+    if (p <= 0) {
+        printf("Invalid matrix dimensions. Exiting program.\n");
+        return 1;
+    }
+    int mat2[n][p], result[m][p];
+    printf("\nEnter the elements of matrix 2:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < p; j++) {
+            scanf("%d", &mat2[i][j]);
+        }
+    }
+    printf("\nResult of matrix multiplication is:\n");
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < p; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < n; k++) {
+                result[i][j] += mat1[i][k] * mat2[k][j];
+            }
+            printf("%d ", result[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
