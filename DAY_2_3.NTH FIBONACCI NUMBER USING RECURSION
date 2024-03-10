@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+unsigned long long fibonacci(int n);
+
+int main() {
+    int n;
+    printf("192324112-sree ruthin reddy");
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+
+    if (n < 0) {
+        printf("Error: Please enter a non-negative integer.\n");
+    } else {
+        unsigned long long result = fibonacci(n);
+        printf("The %dth Fibonacci number is: %llu\n", n, result);
+    }
+
+    return 0;
+}
+
+unsigned long long fibonacci(int n) {
+    if (n == 0 || n == 1) {
+        return n;
+    } else {
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+}
