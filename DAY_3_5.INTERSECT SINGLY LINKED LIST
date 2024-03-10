@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+int findLength(struct Node* head) {
+    int length = 0;
+    struct Node* current = head;
+
+    while (current != NULL) {
+        length++;
+        current = current->next;
+    }
+
+    return length;
+}
+
+struct Node* findIntersection(struct Node* list1, struct Node* list2) {
+    int len1 = findLength(list1);
+    int len2 = findLength(list2);
+
+    int diff = abs(len1 - len2);
+
+    struct Node* longer = (len1 >= len2) ? list1 : list2;
+    struct Node* shorter = (len1 >= len2) ? list2 : list1;
+
+    for (int i = 0; i < diff; i++) {
+        longer = longer->next;
+    }
+
+    while (longer != NULL && shorter != NULL) {
+        if (longer == shorter) {
+            return longer; 
+        }
+
+        longer = longer->next;
+        shorter = shorter->next;
+    }
+
+    return NULL; 
+}
+
+void display(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    printf("192324112-sree ruthin reddy\n");
+    struct Node* list1 = createNode(1);
+    list1->next = createNode(2);
+    list1->next->next = createNode(3);
+
+    struct Node* commonNode = createNode(7);
+    list1->next->next->next = commonNode;
+
+    struct Node* list2 = createNode(4);
+    list2->next = createNode(5);
+    list2->next->next = commonNode;
+
+    printf("List 1: ");
+    display(list1);
+    printf("List 2: ");
+    display(list2);
+
+    struct Node* intersectionNode = findIntersection(list1, list2);
+
+    if (intersectionNode != NULL) {
+        printf("Intersection Node Value: %d\n", intersectionNode->data);
+    } else {
+        printf("No intersection found.\n");
+    }
+
+    return 0;
+}
