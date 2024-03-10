@@ -1,0 +1,23 @@
+#include<stdio.h>
+int main()
+{
+    int n,n1;
+    printf("192324112-sree ruthin reddy\n");
+    printf("enter the size of array: ");
+    scanf("%d",&n);
+    printf("\nenter the array elements: ");
+    int arr[n];
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+    printf("\nenter which iterated element: ");
+    scanf("%d",&n1);
+    printf("\nthe fifth iterated elements is : ");
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]==n1);
+    }
+     printf("%d",n1);
+    return 0;
+}
