@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+struct Node* reverseList(struct Node* head) {
+    struct Node *prev = NULL, *current = head, *next = NULL;
+
+    while (current != NULL) {
+        next = current->next; 
+        current->next = prev; 
+        prev = current;        
+        current = next;       
+    }
+
+    head = prev; 
+
+    return head;
+}
+
+void display(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    printf("192324112-sree ruthin reddy\n");
+    struct Node* head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(3);
+    head->next->next->next = createNode(4);
+
+    printf("Original Linked List: ");
+    display(head);
+
+    head = reverseList(head);
+
+    printf("Reversed Linked List: ");
+    display(head);
+
+    return 0;
+}
