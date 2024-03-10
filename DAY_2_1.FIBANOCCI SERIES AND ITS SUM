@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int n, first = 0, second = 1, next, sum = 0;
+    printf("192324112-sree ruthin reddy\n");
+    printf("Enter the number of Fibonacci numbers to generate: ");
+    scanf("%d", &n);
+
+    printf("Fibonacci Series up to %d numbers:\n", n);
+    for (int i = 0; i < n; i++) {
+        printf("%d ", first);
+        sum += first;
+        next = first + second;
+        first = second;
+        second = next;
+    }
+
+    printf("\nSum of the Fibonacci Series: %d\n", sum);
+
+    return 0;
+}
