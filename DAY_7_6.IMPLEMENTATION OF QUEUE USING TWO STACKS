@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct StackNode {
+    int data;
+    struct StackNode* next;
+};
+
+struct Stack {
+    struct StackNode* top;
+};
+
+void initializeStack(struct Stack* stack) {
+        printf("192324112-sree ruthin reddy\n");
+
+    stack->top = NULL;
+}
+
+int isStackEmpty(struct Stack* stack) {
+    return (stack->top == NULL);
+}
+
+void push(struct Stack* stack, int value) {
+    struct StackNode* newNode = (struct StackNode*)malloc(sizeof(struct StackNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed. Push operation failed.\n");
+        return;
+    }
+
+    newNode->data = value;
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
+
+int pop(struct Stack* stack) {
+    if (isStackEmpty(stack)) {
+        printf("Stack is empty. Pop operation failed.\n");
+        return -1; 
+    }
+
+    struct StackNode* temp = stack->top;
+    int value = temp->data;
+    stack->top = temp->next;
+    free(temp);
+
+    return value;
+}
+
+struct QueueUsingTwoStacks {
+    struct Stack* stack1; 
+    struct Stack* stack2; 
+};
+
+void initializeQueue(struct QueueUsingTwoStacks* queue) {
+    queue->stack1 = (struct Stack*)malloc(sizeof(struct Stack));
+    queue->stack2 = (struct Stack*)malloc(sizeof(struct Stack));
+
+    initializeStack(queue->stack1);
+    initializeStack(queue->stack2);
+}
+
+void enqueue(struct QueueUsingTwoStacks* queue, int value) {
+    push(queue->stack1, value);
+}
+
+int dequeue(struct QueueUsingTwoStacks* queue) {
+    if (isStackEmpty(queue->stack2)) {
+        while (!isStackEmpty(queue->stack1)) {
+            push(queue->stack2, pop(queue->stack1));
+        }
+    }
+
+    return pop(queue->stack2);
+}
+
+void displayQueue(struct QueueUsingTwoStacks* queue) {
+    printf("Queue elements: ");
+    struct StackNode* current = queue->stack2->top;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+
+    current = queue->stack1->top;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+
+    printf("\n");
+}
+
+int main() {
+    struct QueueUsingTwoStacks myQueue;
+    initializeQueue(&myQueue);
+
+    enqueue(&myQueue, 10);
+    enqueue(&myQueue, 20);
+    enqueue(&myQueue, 30);
+
+    displayQueue(&myQueue);
+
+    printf("Dequeued element: %d\n", dequeue(&myQueue));
+
+    displayQueue(&myQueue);
+
+    return 0;
+}
