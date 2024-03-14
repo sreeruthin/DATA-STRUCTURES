@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define MAX_SIZE 100
+
+int evaluatePostfix(char *expression) {
+    int stack[MAX_SIZE];
+    int top = -1;
+
+    for (int i = 0; expression[i] != '\0'; i++) {
+        if (isdigit(expression[i])) {
+            int operand = expression[i] - '0';
+            stack[++top] = operand;
+        } else if (expression[i] == ' ') {
+            continue;
+        } else {
+            int operand2 = stack[top--];
+            int operand1 = stack[top--];
+
+            switch (expression[i]) {
+                case '+':
+                    stack[++top] = operand1 + operand2;
+                    break;
+                case '-':
+                    stack[++top] = operand1 - operand2;
+                    break;
+                case '*':
+                    stack[++top] = operand1 * operand2;
+                    break;
+                case '/':
+                    if (operand2 == 0) {
+                        printf("Error: Division by zero\n");
+                        exit(EXIT_FAILURE);
+                    }
+                    stack[++top] = operand1 / operand2;
+                    break;
+                default:
+                    printf("Error: Invalid operator\n");
+                    exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    return stack[top];
+}
+
+int main() {
+    char postfixExpression[] = "44 2 / 6 -";
+    
+    int result = evaluatePostfix(postfixExpression);
+    printf("192324112-sree ruthin reddy\n");
+    printf("Result of the postfix expression: %d\n", result);
+
+    return 0;
+}
