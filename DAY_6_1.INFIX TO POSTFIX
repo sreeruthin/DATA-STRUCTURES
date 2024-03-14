@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define MAX_SIZE 100
+
+int isOperator(char ch) {
+    return (ch == '+' || ch == '-' || ch == '*' || ch == '/');
+}
+
+int getPrecedence(char op) {
+    switch (op) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        default:
+            return 0;
+    }
+}
+
+void infixToPostfix(char *infixExpression, char *postfixExpression) {
+    char stack[MAX_SIZE];
+    int top = -1;
+    int outputIndex = 0;
+
+    for (int i = 0; infixExpression[i] != '\0'; i++) {
+        char currentChar = infixExpression[i];
+
+        if (isalnum(currentChar)) {
+            postfixExpression[outputIndex++] = currentChar;
+        } else if (currentChar == '(') {
+            stack[++top] = currentChar;
+        } else if (currentChar == ')') {
+            while (top >= 0 && stack[top] != '(') {
+                postfixExpression[outputIndex++] = stack[top--];
+            }
+            top--;
+        } else if (isOperator(currentChar)) {
+            while (top >= 0 && getPrecedence(stack[top]) >= getPrecedence(currentChar)) {
+                postfixExpression[outputIndex++] = stack[top--];
+            }
+            stack[++top] = currentChar;
+        }
+    }
+
+    while (top >= 0) {
+        postfixExpression[outputIndex++] = stack[top--];
+    }
+
+    postfixExpression[outputIndex] = '\0';
+}
+
+int main() {
+    char infixExpression[] = "(a + b) * c + d";
+    char postfixExpression[MAX_SIZE];
+
+    infixToPostfix(infixExpression, postfixExpression);
+    printf("192324112-sree ruthin reddy\n");
+    printf("Infix Expression: %s\n", infixExpression);
+    printf("Postfix Expression: %s\n", postfixExpression);
+
+    return 0;
+}
