@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Queue {
+    struct Node* front;
+    struct Node* rear;
+};
+
+void initializeQueue(struct Queue* queue) {
+    queue->front = NULL;
+    queue->rear = NULL;
+        printf("192324112-sree ruthin reddy\n");
+
+}
+
+int isEmpty(struct Queue* queue) {
+    return (queue->front == NULL);
+}
+
+void enqueue(struct Queue* queue, int value) {
+
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed. Enqueue operation failed.\n");
+        return;
+    }
+
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (isEmpty(queue)) {
+        queue->front = newNode;
+        queue->rear = newNode;
+    } else {
+        queue->rear->next = newNode;
+        queue->rear = newNode;
+    }
+}
+
+int dequeue(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Dequeue operation failed.\n");
+        return -1; 
+    }
+
+    struct Node* temp = queue->front;
+    queue->front = queue->front->next;
+
+    if (queue->front == NULL) {
+        queue->rear = NULL;
+    }
+
+    int value = temp->data;
+    free(temp);
+    return value;
+}
+
+void display(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+    struct Node* current = queue->front;
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+
+    printf("\n");
+}
+
+struct Stack {
+    struct Queue* q1;
+    struct Queue* q2;
+};
+
+struct Stack* initializeStack() {
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->q1 = (struct Queue*)malloc(sizeof(struct Queue));
+    stack->q2 = (struct Queue*)malloc(sizeof(struct Queue));
+
+    initializeQueue(stack->q1);
+    initializeQueue(stack->q2);
+
+    return stack;
+}
+
+void push(struct Stack* stack, int value) {
+    enqueue(stack->q2, value);
+
+    while (!isEmpty(stack->q1)) {
+        enqueue(stack->q2, dequeue(stack->q1));
+    }
+
+    struct Queue* temp = stack->q1;
+    stack->q1 = stack->q2;
+    stack->q2 = temp;
+}
+
+int pop(struct Stack* stack) {
+    if (isEmpty(stack->q1)) {
+        printf("Stack is empty. Pop operation failed.\n");
+        return -1;
+    }
+
+    return dequeue(stack->q1);
+}
+
+void displayStack(struct Stack* stack) {
+    printf("Stack elements: ");
+    display(stack->q1);
+}
+
+int main() {
+    struct Stack* myStack = initializeStack();
+
+    push(myStack, 10);
+    push(myStack, 20);
+    push(myStack, 30);
+
+    displayStack(myStack);
+
+    printf("Popped element: %d\n", pop(myStack));
+
+    displayStack(myStack);
+
+    return 0;
+}
