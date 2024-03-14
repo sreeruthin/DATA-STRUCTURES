@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+int areSymbolsBalanced(char *str) {
+    char stack[MAX_SIZE];
+    int top = -1;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '(' || str[i] == '[' || str[i] == '{') {
+            if (top == MAX_SIZE - 1) {
+                printf("Stack overflow\n");
+                return 0;  
+            }
+            stack[++top] = str[i];
+        } else if (str[i] == ')' || str[i] == ']' || str[i] == '}') {
+            if (top == -1) {
+                return 0;  
+            }
+            char openSymbol = stack[top--];
+            if ((openSymbol == '(' && str[i] != ')') ||
+                (openSymbol == '[' && str[i] != ']') ||
+                (openSymbol == '{' && str[i] != '}')) {
+                return 0;  
+            }
+        }
+    }
+
+    return (top == -1);  
+}
+
+int main() {
+    char input[MAX_SIZE];
+    printf("192324112-sree ruthin reddy\n");
+    printf("Enter a string containing parentheses, square brackets, and curly braces: ");
+    fgets(input, sizeof(input), stdin);
+
+    if (areSymbolsBalanced(input)) {
+        printf("The symbols are balanced.\n");
+    } else {
+        printf("The symbols are not balanced.\n");
+    }
+
+    return 0;
+}
