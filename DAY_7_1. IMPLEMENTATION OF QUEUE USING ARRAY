@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_SIZE 10
+
+struct Queue {
+    int array[MAX_SIZE];
+    int front, rear;
+};
+
+void initializeQueue(struct Queue* queue) {
+    queue->front = -1;
+    queue->rear = -1;
+}
+
+bool isEmpty(struct Queue* queue) {
+    return (queue->front == -1 && queue->rear == -1);
+}
+
+bool isFull(struct Queue* queue) {
+    return ((queue->rear + 1) % MAX_SIZE == queue->front);
+}
+
+void enqueue(struct Queue* queue, int value) {
+    if (isFull(queue)) {
+        printf("Queue is full. Enqueue operation failed.\n");
+        return;
+    }
+
+    if (isEmpty(queue)) {
+        queue->front = 0;
+        queue->rear = 0;
+    } else {
+        queue->rear = (queue->rear + 1) % MAX_SIZE;
+    }
+
+    queue->array[queue->rear] = value;
+     printf("192324112-sree ruthin reddy\n");
+    printf("Enqueued %d\n", value);
+}
+
+void dequeue(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Dequeue operation failed.\n");
+        return;
+    }
+
+    printf("Dequeued %d\n", queue->array[queue->front]);
+
+    if (queue->front == queue->rear) {
+        initializeQueue(queue);
+    } else {
+        queue->front = (queue->front + 1) % MAX_SIZE;
+    }
+}
+
+void display(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+    int i = queue->front;
+    do {
+        printf("%d ", queue->array[i]);
+        i = (i + 1) % MAX_SIZE;
+    } while (i != (queue->rear + 1) % MAX_SIZE);
+
+    printf("\n");
+}
+
+int front(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Front operation failed.\n");
+        return -1; 
+    }
+
+    return queue->array[queue->front];
+}
+
+
+int rear(struct Queue* queue) {
+    if (isEmpty(queue)) {
+        printf("Queue is empty. Rear operation failed.\n");
+        return -1; 
+    }
+
+    return queue->array[queue->rear];
+}
+
+int main() {
+    struct Queue myQueue;
+    initializeQueue(&myQueue);
+
+    enqueue(&myQueue, 10);
+    enqueue(&myQueue, 20);
+    enqueue(&myQueue, 30);
+    display(&myQueue);
+    printf("Front element: %d\n", front(&myQueue));
+    printf("Rear element: %d\n", rear(&myQueue));
+
+    dequeue(&myQueue);
+    display(&myQueue);
+
+    return 0;
+}
